@@ -27,7 +27,7 @@
 }
 
 body {
-  background: var(--main-background);
+  background: var(--main-background, #FFFBF9) !important;
   color: var(--foreground);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }

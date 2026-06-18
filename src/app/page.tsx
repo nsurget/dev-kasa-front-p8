@@ -1,5 +1,8 @@
 import React from "react";
 import Banner from "@/components/Banner";
+import CardProperty from "@/components/CardProperty";
+import Container from "@/components/Container";
+import HowItWorks from "@/components/HowItWorks";
 import { Property } from "../../types/property";
 
 export const dynamic = "force-dynamic";
@@ -7,7 +10,7 @@ export const dynamic = "force-dynamic";
 async function getProperties(): Promise<Property[]> {
   const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const res = await fetch(`${backendUrl}/api/properties`, {
-    cache: "no-store", // disable caching to ensure we get fresh data for testing, or adjust as needed
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -19,20 +22,17 @@ async function getProperties(): Promise<Property[]> {
 
 export default async function Home() {
   let properties: Property[] = [];
-  let errorDump: any = null;
+  let errorMsg: string | null = null;
 
   try {
     properties = await getProperties();
-  } catch (err: any) {
+  } catch (err) {
     console.error("Error fetching properties on server:", err);
-    errorDump = {
-      message: err.message || "An error occurred while fetching properties on the server.",
-      stack: err.stack,
-    };
+    errorMsg = err instanceof Error ? err.message : "Impossible de récupérer les logements pour le moment.";
   }
 
   return (
-    <div className="flex flex-col gap-8 py-8 max-w-[1240px] mx-auto px-4">
+    <Container className="flex flex-col gap-8 py-8">
       {/* Banner */}
       <Banner
         title={
@@ -46,25 +46,28 @@ export default async function Home() {
         imageAlt="Chalet en bois moderne en pleine nature, Kasa"
       />
 
-      <div className="flex flex-col gap-4">
-        <h2 className="text-xl font-bold text-[#0d0d0d]">API Response (Server-side Fetch)</h2>
-
-        {errorDump ? (
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-semibold text-red-600">Erreur lors de la requête :</span>
-            <pre className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl text-xs overflow-auto font-mono text-left max-w-full">
-              {JSON.stringify(errorDump, null, 2)}
-            </pre>
+      {/* Properties Section Container */}
+      <div className="w-full">
+        {errorMsg ? (
+          <div className="flex flex-col items-center justify-center p-8 bg-red-50 border border-red-100 rounded-xl text-center">
+            <span className="text-sm font-semibold text-red-600 mb-2">Erreur de chargement</span>
+            <p className="text-xs text-red-800 max-w-md">{errorMsg}</p>
+          </div>
+        ) : properties.length === 0 ? (
+          <div className="text-center py-12 text-[#565656]">
+            Aucun logement disponible actuellement.
           </div>
         ) : (
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-semibold text-green-600">Succès ! Liste des propriétés :</span>
-            <pre className="bg-slate-50 border border-slate-200 text-slate-800 p-4 rounded-xl text-xs overflow-auto font-mono text-left max-w-full">
-              {JSON.stringify(properties, null, 2)}
-            </pre>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-items-center">
+            {properties.map((property) => (
+              <CardProperty key={property.id} property={property} />
+            ))}
           </div>
         )}
       </div>
-    </div>
+
+      {/* How it Works Block */}
+      <HowItWorks />
+    </Container>
   );
 }

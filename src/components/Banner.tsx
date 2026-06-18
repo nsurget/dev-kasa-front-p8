@@ -10,7 +10,7 @@ type BannerProps = {
 
 export default function Banner({ title, description, imageSrc, imageAlt }: BannerProps) {
   return (
-    <section className="flex flex-col gap-[40px] items-center justify-center w-full px-[8px]">
+    <section className="flex flex-col gap-[40px] items-center justify-center w-full">
       {/* Title and Subtitle */}
       <div className="flex flex-col gap-[8px] items-center justify-center text-center w-full max-w-[742px]">
         <h1 className="font-bold text-[32px] text-[#99331a] leading-[1.426] tracking-tight">

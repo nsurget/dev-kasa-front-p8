@@ -5,6 +5,7 @@ export interface Host {
 
 export interface Property {
   id: string;
+  slug: string;
   title: string;
   cover: string;
   pictures: string[];
@@ -14,4 +15,7 @@ export interface Property {
   location: string;
   equipments: string[];
   tags: string[];
+  price_per_night: number;
+  rating_avg?: number;
+  ratings_count?: number;
 }
