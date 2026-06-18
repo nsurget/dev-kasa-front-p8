@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         source: "/api/:path*",
         destination: `${backendUrl}/api/:path*`, // Proxy to Backend with /api/ prefix
       },
+      {
+        source: "/auth/:path*",
+        destination: `${backendUrl}/auth/:path*`, // Proxy to Backend for auth endpoints
+      },
     ];
   },
 };

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Property } from "../../types/property";
+import { useAuthStore } from "@/store/authStore";
 
 type CardPropertyProps = {
   property: Property;
@@ -13,14 +14,14 @@ type CardPropertyProps = {
 export default function CardProperty({ property }: CardPropertyProps) {
   const router = useRouter();
   const [isFavorited, setIsFavorited] = useState(false);
+  const { isAuthenticated } = useAuthStore();
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // Check if token exists in localStorage (or cookies)
-    const token = localStorage.getItem("token");
-    if (!token) {
+    // Check if user is authenticated from the Zustand auth store
+    if (!isAuthenticated) {
       // Redirect to login if user is not authenticated
       router.push("/login");
     } else {

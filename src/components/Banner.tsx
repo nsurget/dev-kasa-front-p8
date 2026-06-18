@@ -3,7 +3,7 @@ import Image from "next/image";
 
 type BannerProps = {
   title: React.ReactNode;
-  description: string;
+  description: React.ReactNode;
   imageSrc: string;
   imageAlt: string;
 };
@@ -16,9 +16,9 @@ export default function Banner({ title, description, imageSrc, imageAlt }: Banne
         <h1 className="font-bold text-[32px] text-[#99331a] leading-[1.426] tracking-tight">
           {title}
         </h1>
-        <p className="font-normal text-[14px] text-[#0d0d0d] leading-[1.426] max-w-[620px]">
+        <div className="font-normal text-[14px] text-[#0d0d0d] leading-[1.426] max-w-[620px]">
           {description}
-        </p>
+        </div>
       </div>
 
       {/* Banner Image Card */}

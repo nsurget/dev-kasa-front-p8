@@ -47,7 +47,7 @@ export default async function Home() {
       />
 
       {/* Properties Section Container */}
-      <div className="w-full">
+      <div id="properties-list" className="w-full">
         {errorMsg ? (
           <div className="flex flex-col items-center justify-center p-8 bg-red-50 border border-red-100 rounded-xl text-center">
             <span className="text-sm font-semibold text-red-600 mb-2">Erreur de chargement</span>
