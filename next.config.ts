@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+    qualities: [100, 75],
   },
   async rewrites() {
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";

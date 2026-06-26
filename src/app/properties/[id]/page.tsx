@@ -1,4 +1,5 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import PropertyDetailClient from "@/components/PropertyDetailClient";
 import { Property } from "../../../../types/property";
@@ -11,11 +12,15 @@ type PropertyPageProps = {
   }>;
 };
 
-async function getPropertyDetails(id: string): Promise<Property> {
+async function getPropertyDetails(id: string): Promise<Property | null> {
   const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const res = await fetch(`${backendUrl}/api/properties/${id}`, {
     cache: "no-store",
   });
+
+  if (res.status === 404) {
+    return null;
+  }
 
   if (!res.ok) {
     throw new Error(`Failed to fetch property details for ID: ${id}. Status: ${res.status}`);
@@ -34,6 +39,10 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   } catch (err) {
     console.error("Error fetching property details:", err);
     errorMsg = err instanceof Error ? err.message : "Une erreur inconnue est survenue.";
+  }
+
+  if (!property && (!errorMsg || errorMsg.includes("Status: 404"))) {
+    notFound();
   }
 
   return (

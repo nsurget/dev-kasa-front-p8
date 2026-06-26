@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Property } from "../../types/property";
 import { useAuthStore } from "@/store/authStore";
+import Logo from "./Logo";
 
 type CardPropertyProps = {
   property: Property;
@@ -36,16 +37,19 @@ export default function CardProperty({ property }: CardPropertyProps) {
       className="group flex flex-col items-start relative w-full mx-auto bg-white rounded-[10px] overflow-hidden hover:shadow transition-shadow duration-300 border border-[#f5f5f5]"
     >
       {/* Cover Image Container */}
-      <div className="h-[376px] w-full overflow-hidden relative bg-[#f5f5f5]">
-        <Image
-          alt={property.title}
-          className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out transform-gpu"
-          src={property.cover}
-          fill
-          quality={100}
-          
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
-        />
+      <div className="h-[376px] w-full overflow-hidden relative bg-[#f5f5f5] flex items-center justify-center">
+        {property.cover ? (
+          <Image
+            alt={property.title}
+            className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out transform-gpu"
+            src={property.cover}
+            fill
+            quality={100}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+          />
+        ) : (
+          <Logo className="opacity-20 grayscale brightness-125 scale-125" size="large" />
+        )}
         
         {/* Favorite Button */}
         <button
